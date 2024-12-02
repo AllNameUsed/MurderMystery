@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='toast.js') }}"></script>
+    <title>Access Code Audio Player</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Enter Access Code</h1>
+        <form method="POST">
+            <input type="text" name="access_code" placeholder="Enter Access Code" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div id="toast" class="toast">{{ messages[0] }}</div>
+                <script>
+                    showToast();
+                </script>
+            {% endif %}
+        {% endwith %}
+
+        {% if audio_file %}
+            <div class="audio-player">
+                <h2>Playing: {{ audio_file }}</h2>
+                <audio controls autoplay>
+                    <source src="{{ url_for('static', filename='audio/' + audio_file) }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
